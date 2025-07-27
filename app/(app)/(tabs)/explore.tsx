@@ -1,38 +1,34 @@
-import { StyleSheet } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 
-import { Button } from '@/components/form/Button';
+import QuickActions from '@/components/home/quick-actions';
+import { Upcoming } from '@/components/home/upcoming';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import { auth } from '@/firebase/firebase-config';
-import { signOut } from 'firebase/auth';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function TabTwoScreen() {
 	return (
 		<ParallaxScrollView
-			headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
 			headerImage={
-				<IconSymbol
-					size={310}
-					color='#808080'
-					name='chevron.left.forwardslash.chevron.right'
-					style={styles.headerImage}
-				/>
+				<LinearGradient
+					colors={['#3d7eff', '#743be8']}
+					start={{ x: 0, y: 0 }}
+					end={{ x: 1, y: 0 }}
+					style={{ height: 150 }}
+				>
+					<SafeAreaView className='mx-6 gap-2'>
+						<Text className='text-white text-2xl font-bold'>Pack mate</Text>
+						<Text className='text-white '>
+							Never forget anything on your travels
+						</Text>
+					</SafeAreaView>
+				</LinearGradient>
 			}
+			headerBackgroundColor={{ dark: '#4c669f', light: '#3b5998' }}
 		>
-			<Button onPress={() => signOut(auth)}>Sign out</Button>
+			<View className='relative z-10 -top-10 '>
+				<QuickActions />
+				<Upcoming />
+			</View>
 		</ParallaxScrollView>
 	);
 }
-
-const styles = StyleSheet.create({
-	headerImage: {
-		color: '#808080',
-		bottom: -90,
-		left: -35,
-		position: 'absolute',
-	},
-	titleContainer: {
-		flexDirection: 'row',
-		gap: 8,
-	},
-});
