@@ -1,3 +1,4 @@
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import {
 	DarkTheme,
 	DefaultTheme,
@@ -14,6 +15,9 @@ import '../global.css';
 import { AuthProvider, useAuth } from '@/firebase/auth-context';
 import { auth } from '@/firebase/firebase-config';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Host } from 'react-native-portalize';
 import Toast, {
 	BaseToastProps,
 	ErrorToast,
@@ -32,7 +36,7 @@ function RootLayoutNav() {
 
 	useEffect(() => {
 		if (!loading && user) {
-			router.replace('/(app)/(tabs)');
+			router.replace('/(app)/(tabs)/home');
 		}
 	}, [user, loading]);
 
@@ -55,22 +59,37 @@ function RootLayoutNav() {
 
 	return (
 		<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-			<Stack>
-				<Stack.Screen name='index' options={{ headerShown: false }} />
-				<Stack.Screen name='(auth)' options={{ headerShown: false }} />
-				<Stack.Screen name='(app)' options={{ headerShown: false }} />
-				<Stack.Screen name='+not-found' />
-			</Stack>
-			<StatusBar style='auto' />
+			<GestureHandlerRootView style={{ flex: 1 }}>
+				<BottomSheetModalProvider>
+					<Host>
+						<Stack>
+							<Stack.Screen name='index' options={{ headerShown: false }} />
+							<Stack.Screen name='(auth)' options={{ headerShown: false }} />
+							<Stack.Screen name='(app)' options={{ headerShown: false }} />
+							<Stack.Screen name='+not-found' />
+						</Stack>
+						<StatusBar style='auto' />
+					</Host>
+				</BottomSheetModalProvider>
+			</GestureHandlerRootView>
 			<Toast config={toastConfig} />
 		</ThemeProvider>
 	);
 }
 
 export default function RootLayout() {
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				refetchOnWindowFocus: false,
+			},
+		},
+	});
 	return (
 		<AuthProvider>
-			<RootLayoutNav />
+			<QueryClientProvider client={queryClient}>
+				<RootLayoutNav />
+			</QueryClientProvider>
 		</AuthProvider>
 	);
 }

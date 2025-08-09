@@ -3,9 +3,31 @@ import { SafeAreaView, Text, View } from 'react-native';
 import QuickActions from '@/components/home/quick-actions';
 import { Upcoming } from '@/components/home/upcoming';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { db } from '@/firebase/firebase-config';
+import { useQuery } from '@tanstack/react-query';
 import { LinearGradient } from 'expo-linear-gradient';
+import { collection, getDocs, query } from 'firebase/firestore';
+import { useCallback, useState } from 'react';
 
 export default function TabTwoScreen() {
+	const [data, setData] = useState(null);
+
+	const q = query(collection(db, 'trip'));
+
+	const getTrips = useCallback(async () => {
+		try {
+			const trips = await getDocs(q);
+			return trips.docs.map((doc) => doc.data());
+		} catch (error) {
+			console.log(error);
+		}
+	}, [q]);
+
+	const { data: trips, isLoading } = useQuery({
+		queryKey: ['trips'],
+		queryFn: getTrips,
+	});
+
 	return (
 		<ParallaxScrollView
 			headerImage={
@@ -27,7 +49,7 @@ export default function TabTwoScreen() {
 		>
 			<View className='relative z-10 -top-10 gap-4'>
 				<QuickActions />
-				<Upcoming />
+				<Upcoming trips={trips} isLoading={isLoading} />
 			</View>
 		</ParallaxScrollView>
 	);

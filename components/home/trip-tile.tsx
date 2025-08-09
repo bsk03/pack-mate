@@ -11,32 +11,30 @@ type Props = {
 	packed: boolean;
 };
 
-export const TripTile = ({ title, city, country, date, packed }: Props) => {
-	return (
-		<Tile className=' gap-1'>
-			<Text className='text-lg font-bold'>{title}</Text>
-			<View className='flex-row gap-2 items-center text-sm text-gray-500'>
-				<MapPinIcon size={16} color='#6c757d' />
-				<Text className='text-pm-text-muted'>
-					{city}, {country}
-				</Text>
-			</View>
-			<View className='flex-row gap-2 items-center text-sm text-gray-500'>
-				<CalendarIcon size={16} color='#6c757d' />
-				<Text className='text-pm-text-muted'>{date}</Text>
-			</View>
-			<View className='gap-2'>
-				<View className='flex-row justify-between items-center'>
-					<View className='flex-row gap-2 items-center text-sm text-gray-500'>
-						<PackageIcon size={16} color='#6c757d' />
-						<Text className='text-pm-text-muted'>
-							{packed ? 'Packed' : 'Packing Progress'}
-						</Text>
-					</View>
-					<Text>12/12</Text>
+export const TripTile = ({ title, city, country, date, packed }: Props) => (
+	<Tile className=' gap-1'>
+		<Text className='text-lg font-bold'>{title}</Text>
+		<View className='flex-row gap-2 items-center text-sm text-gray-500'>
+			<MapPinIcon size={16} color='#6c757d' />
+			<Text className='text-pm-text-muted'>
+				{city}, {country}
+			</Text>
+		</View>
+		<View className='flex-row gap-2 items-center text-sm text-gray-500'>
+			<CalendarIcon size={16} color='#6c757d' />
+			<Text className='text-pm-text-muted'>{date}</Text>
+		</View>
+		<View className='gap-2'>
+			<View className='flex-row justify-between items-center'>
+				<View className='flex-row gap-2 items-center text-sm text-gray-500'>
+					<PackageIcon size={16} color='#6c757d' />
+					<Text className='text-pm-text-muted'>
+						{packed ? 'Packed' : 'Packing Progress'}
+					</Text>
 				</View>
-				<View className='w-full rounded-lg bg-pm-primary h-2' />
+				<Text>12/12</Text>
 			</View>
-		</Tile>
-	);
-};
+			<View className='w-full rounded-lg bg-pm-primary h-2' />
+		</View>
+	</Tile>
+);

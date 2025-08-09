@@ -49,7 +49,7 @@ export default function LoginScreen() {
 				type: 'success',
 				text1: 'Zalogowano pomyślnie',
 			});
-			router.replace('/(app)/(tabs)');
+			router.replace('/(app)/(tabs)/home');
 		} catch (err) {
 			Toast.show({
 				type: 'error',

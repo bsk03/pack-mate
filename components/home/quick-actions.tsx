@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import {
 	BagIcon,
 	PlusIcon,
@@ -16,7 +17,11 @@ export default function QuickActions() {
 				<Text className='font-bold text-lg'>Quick actions</Text>
 				<View className='flex-row gap-2 flex-1'>
 					<View className='flex-1'>
-						<Button className='flex-row gap-2 flex-1 ' variant='accent'>
+						<Button
+							className='flex-row gap-2 flex-1 '
+							variant='accent'
+							onPress={() => router.push('/home/new-trip')}
+						>
 							<View className='flex-row gap-2 items-center'>
 								<PlusIcon size={14} />
 								<Text className='text-sm '>New trip</Text>
