@@ -1,9 +1,9 @@
 import { Google } from '@/assets/svg/google';
 import { Button } from '@/components/form/Button';
 import { Input } from '@/components/form/Input';
+import { useAuth } from '@/context/auth-context';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { AppleLogoIcon, ArrowLeftIcon } from 'phosphor-react-native';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -18,7 +18,6 @@ import {
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { z } from 'zod';
-import { auth } from '../../firebase/firebase-config';
 
 type Inputs = {
 	email: string;
@@ -31,8 +30,8 @@ const SignUpSchema = z.object({
 });
 
 export default function LoginScreen() {
+	const { login } = useAuth();
 	const {
-		register,
 		handleSubmit,
 		control,
 		formState: { isSubmitting },
@@ -44,7 +43,7 @@ export default function LoginScreen() {
 	const onSubmit = async (data: Inputs) => {
 		console.log(data);
 		try {
-			await signInWithEmailAndPassword(auth, data.email, data.password);
+			await login(data.email, data.password);
 			Toast.show({
 				type: 'success',
 				text1: 'Zalogowano pomyślnie',
@@ -88,6 +87,7 @@ export default function LoginScreen() {
 								name='email'
 								placeholder='john.doe@example.com'
 								error={errors.email?.message}
+								autoCapitalize='none'
 							/>
 							<Input
 								label='Hasło'

@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { CalendarIcon, MapPinIcon, PackageIcon } from 'phosphor-react-native';
 import React from 'react';
 import { Text, View } from 'react-native';
@@ -9,10 +10,23 @@ type Props = {
 	country: string;
 	date: string;
 	packed: boolean;
+	clickable?: boolean;
+	id: string;
 };
 
-export const TripTile = ({ title, city, country, date, packed }: Props) => (
-	<Tile className=' gap-1'>
+export const TripTile = ({
+	title,
+	city,
+	country,
+	date,
+	packed,
+	clickable = false,
+	id,
+}: Props) => (
+	<Tile
+		className=' gap-1'
+		onPress={clickable ? () => router.push(`/trip/${id}`) : undefined}
+	>
 		<Text className='text-lg font-bold'>{title}</Text>
 		<View className='flex-row gap-2 items-center text-sm text-gray-500'>
 			<MapPinIcon size={16} color='#6c757d' />

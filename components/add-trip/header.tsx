@@ -10,12 +10,14 @@ export const NewTripHeader = ({
 	totalPages,
 	onNext,
 	onPrevious,
+	isValid,
 }: {
 	title: string;
 	actualPage: number;
 	totalPages: number;
 	onNext: () => void;
 	onPrevious: () => void;
+	isValid: boolean;
 }) => {
 	const insets = useSafeAreaInsets();
 	const percentage = React.useRef(new Animated.Value(0)).current;
@@ -47,7 +49,7 @@ export const NewTripHeader = ({
 					onPress={actualPage === 0 ? () => router.back() : onPrevious}
 				/>
 				<Text className='text-xl  font-semibold'>{title}</Text>
-				<Button title='Next' onPress={onNext} />
+				<Button title='Next' onPress={onNext} disabled={!isValid} />
 			</View>
 			<View className='h-1 w-full bg-gray-300 rounded-full'>
 				<Animated.View style={{ width: progressWidth }}>

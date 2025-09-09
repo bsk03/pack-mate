@@ -12,8 +12,8 @@ import { View } from 'react-native';
 import 'react-native-reanimated';
 import '../global.css';
 
-import { AuthProvider, useAuth } from '@/firebase/auth-context';
-import { auth } from '@/firebase/firebase-config';
+import { AuthProvider, useAuth } from '@/context/auth-context';
+
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -30,9 +30,6 @@ function RootLayoutNav() {
 	const [loaded] = useFonts({
 		PlusJakartaSans: require('../assets/fonts/PlusJakartaSans-Regular.ttf'),
 	});
-	const user2 = auth.currentUser;
-
-	console.log({ user2 });
 
 	useEffect(() => {
 		if (!loading && user) {
@@ -46,13 +43,39 @@ function RootLayoutNav() {
 
 	const toastConfig = {
 		success: (props: BaseToastProps) => (
-			<View style={{ marginTop: 20, zIndex: 9999999999999999 }}>
-				<SuccessToast {...props} />
+			<View
+				style={{
+					zIndex: 9999999999999999,
+					width: '100%',
+					marginTop: 20,
+				}}
+			>
+				<SuccessToast
+					{...props}
+					style={{
+						backgroundColor: 'white',
+						width: '80%',
+						borderRadius: 50,
+						height: 50,
+						borderLeftColor: 'lime',
+						marginHorizontal: 'auto',
+					}}
+				/>
 			</View>
 		),
 		error: (props: BaseToastProps) => (
-			<View style={{ marginTop: 20, zIndex: 9999999999999999 }}>
-				<ErrorToast {...props} />
+			<View style={{ width: '100%', zIndex: 9999999999999999, marginTop: 20 }}>
+				<ErrorToast
+					{...props}
+					style={{
+						backgroundColor: 'white',
+						width: '80%',
+						borderRadius: 50,
+						height: 50,
+						borderLeftColor: 'red',
+						marginHorizontal: 'auto',
+					}}
+				/>
 			</View>
 		),
 	};

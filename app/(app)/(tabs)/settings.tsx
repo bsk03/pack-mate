@@ -3,10 +3,10 @@ import { StyleSheet } from 'react-native';
 import { Button } from '@/components/form/Button';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { auth } from '@/firebase/firebase-config';
-import { signOut } from 'firebase/auth';
+import { useAuth } from '@/context/auth-context';
 
 export default function TabTwoScreen() {
+	const { logout } = useAuth();
 	return (
 		<ParallaxScrollView
 			headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
@@ -19,7 +19,7 @@ export default function TabTwoScreen() {
 				/>
 			}
 		>
-			<Button onPress={() => signOut(auth)}>Sign out</Button>
+			<Button onPress={() => logout()}>Sign out</Button>
 		</ParallaxScrollView>
 	);
 }

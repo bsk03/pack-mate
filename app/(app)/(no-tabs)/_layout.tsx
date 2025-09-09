@@ -4,8 +4,7 @@ import 'react-native-reanimated';
 export default function AuthLayout() {
 	return (
 		<Stack>
-			<Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-			<Stack.Screen name='(no-tabs)' options={{ headerShown: false }} />
+			<Stack.Screen name='trip' options={{ headerShown: false }} />
 		</Stack>
 	);
 }

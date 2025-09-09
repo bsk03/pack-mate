@@ -1,10 +1,12 @@
 import { useState } from 'react';
 
-interface UsePagesReturn {
+type UsePagesReturn = {
 	page: number;
 	nextPage: () => void;
 	prevPage: () => void;
-}
+	isNextPage: boolean;
+	isPrevPage: boolean;
+};
 
 export const usePages = (totalPages: number): UsePagesReturn => {
 	const [page, setPage] = useState(1);
@@ -21,9 +23,14 @@ export const usePages = (totalPages: number): UsePagesReturn => {
 		}
 	};
 
+	console.log('page', page);
+	console.log('totalPages', totalPages);
+
 	return {
 		page,
 		nextPage,
 		prevPage,
+		isNextPage: totalPages !== page,
+		isPrevPage: page === 1,
 	};
 };

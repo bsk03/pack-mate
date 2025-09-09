@@ -1,10 +1,9 @@
 import { Google } from '@/assets/svg/google';
 import { Button } from '@/components/form/Button';
 import { Input } from '@/components/form/Input';
-import { auth } from '@/firebase/firebase-config';
+import { useAuth } from '@/context/auth-context';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { AppleLogoIcon, ArrowLeftIcon } from 'phosphor-react-native';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -38,8 +37,8 @@ export const SignUpSchema = z
 	});
 
 export default function SignUpScreen() {
+	const { registerUserWithEmailAndPassword } = useAuth();
 	const {
-		register,
 		handleSubmit,
 		control,
 		formState: { errors },
@@ -49,13 +48,13 @@ export default function SignUpScreen() {
 
 	const onSubmit = async (data: Inputs) => {
 		try {
-			await createUserWithEmailAndPassword(auth, data.email, data.password);
+			await registerUserWithEmailAndPassword(data.email, data.password);
 			Toast.show({
 				type: 'success',
 				text1: 'Rejestracja zakończona pomyślnie',
 				text2: 'Sprawdź swoją pocztę, aby potwierdzić rejestrację',
 			});
-			router.replace('/(app)/(tabs)');
+			router.replace('/(app)/(tabs)/home');
 		} catch (err) {
 			Toast.show({
 				type: 'error',
@@ -97,6 +96,7 @@ export default function SignUpScreen() {
 								name='email'
 								placeholder='john.doe@example.com'
 								error={errors.email?.message}
+								autoCapitalize='none'
 							/>
 							<Input
 								label='Hasło'

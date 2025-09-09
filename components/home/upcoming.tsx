@@ -17,8 +17,6 @@ export const Upcoming = ({
 		return <Text>No trips found</Text>;
 	}
 
-	console.log(JSON.stringify(trips, null, 2));
-
 	return (
 		<View className='flex-1 gap-4'>
 			<View className='flex-row justify-between items-center'>
@@ -30,62 +28,20 @@ export const Upcoming = ({
 			<View className='flex gap-2 flex-1'>
 				{trips &&
 					trips.map((trip: any) => {
-						const date = new Date(
-							trip.start_at.seconds * 1000
-						).toLocaleDateString();
+						const date = new Date(trip.dateStart).toLocaleDateString();
 						return (
 							<TripTile
 								key={trip.id}
-								title={trip.title}
+								title={trip.name}
 								city={trip.city}
 								country={trip.country}
 								date={date}
 								packed={false}
+								clickable
+								id={trip.id}
 							/>
 						);
 					})}
-				{/* <TripTile
-					title='Hoooooolidayyyys!'
-					city='London'
-					country='UK'
-					date='2025-08-01 - 2025-08-05'
-					packed={true}
-				/>
-				<TripTile
-					title='Hoooooolidayyyys!'
-					city='London'
-					country='UK'
-					date='2025-08-01 - 2025-08-05'
-					packed={true}
-				/>
-				<TripTile
-					title='Hoooooolidayyyys!'
-					city='London'
-					country='UK'
-					date='2025-08-01 - 2025-08-05'
-					packed={true}
-				/>
-				<TripTile
-					title='Hoooooolidayyyys!'
-					city='London'
-					country='UK'
-					date='2025-08-01 - 2025-08-05'
-					packed={true}
-				/>
-				<TripTile
-					title='Hoooooolidayyyys!'
-					city='London'
-					country='UK'
-					date='2025-08-01 - 2025-08-05'
-					packed={true}
-				/>
-				<TripTile
-					title='Hoooooolidayyyys!'
-					city='London'
-					country='UK'
-					date='2025-08-01 - 2025-08-05'
-					packed={true}
-				/> */}
 			</View>
 		</View>
 	);

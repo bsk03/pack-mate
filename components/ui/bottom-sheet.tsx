@@ -3,26 +3,23 @@ import {
 	BottomSheetModal,
 	BottomSheetView,
 } from '@gorhom/bottom-sheet';
-import { forwardRef, useMemo } from 'react';
+import { forwardRef } from 'react';
 import { View } from 'react-native';
-import { FullWindowOverlay } from 'react-native-screens';
 
 type BottomSheetComponentProps = {
 	onSelect?: (props: string) => void;
 	children: React.ReactNode;
 	className?: string;
+	snapPoints?: string[];
 };
 type Ref = BottomSheetModal;
 
 export const BottomSheetComponent = forwardRef<Ref, BottomSheetComponentProps>(
-	({ onSelect, children, className }, ref) => {
-		const snapPoints = useMemo(() => ['50%'], []);
-
-		BottomSheetComponent.displayName = 'BottomSheetComponent';
-
+	({ onSelect, children, className, snapPoints = ['30%'] }, ref) => {
 		return (
 			<BottomSheetModal
 				snapPoints={snapPoints}
+				index={0}
 				backdropComponent={(props) => (
 					<BottomSheetBackdrop
 						{...props}
@@ -40,9 +37,9 @@ export const BottomSheetComponent = forwardRef<Ref, BottomSheetComponentProps>(
 				)}
 				ref={ref}
 				enablePanDownToClose
-				containerComponent={(props) => (
-					<FullWindowOverlay>{props.children}</FullWindowOverlay>
-				)}
+				// containerComponent={(props) => (
+				// 	<FullWindowOverlay>{props.children}</FullWindowOverlay>
+				// )}
 			>
 				<BottomSheetView>
 					<View className='p-4 pb-12'>{children}</View>
@@ -51,3 +48,4 @@ export const BottomSheetComponent = forwardRef<Ref, BottomSheetComponentProps>(
 		);
 	}
 );
+BottomSheetComponent.displayName = 'BottomSheetComponent';

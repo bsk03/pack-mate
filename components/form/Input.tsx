@@ -18,6 +18,7 @@ export interface InputProps<T extends FieldValues>
 	control?: Control<T>;
 	name?: Path<T>;
 	type?: 'text' | 'password';
+	value?: string;
 }
 
 export const Input = forwardRef<TextInput, InputProps<any>>(
@@ -31,6 +32,7 @@ export const Input = forwardRef<TextInput, InputProps<any>>(
 			control,
 			name,
 			type,
+			value,
 			...props
 		},
 		ref
@@ -59,7 +61,7 @@ export const Input = forwardRef<TextInput, InputProps<any>>(
 				<Controller
 					control={control}
 					name={name}
-					render={({ field: { onChange, value } }) => (
+					render={({ field: { onChange, value }, fieldState: { error } }) => (
 						<View className={`w-full space-y-1.5 ${containerClassName}`}>
 							{label && <ThemedText className='text-sm'>{label}</ThemedText>}
 							<View className='relative'>
@@ -75,7 +77,7 @@ export const Input = forwardRef<TextInput, InputProps<any>>(
 								/>
 								{renderPasswordIcon()}
 							</View>
-							<Text className='text-red-500 text-sm'>{error ? error : ''}</Text>
+							<Text className='text-red-500 text-sm'>{error?.message}</Text>
 						</View>
 					)}
 				/>
@@ -90,6 +92,7 @@ export const Input = forwardRef<TextInput, InputProps<any>>(
 						ref={ref}
 						className={`w-full px-4 py-3 rounded-xl border bg-white dark:bg-gray-800 text-gray-900 dark:text-white ${borderColor} ${className}`}
 						style={style}
+						value={value}
 						placeholderTextColor='#9CA3AF'
 						secureTextEntry={type === 'password' && !showPassword}
 						{...props}

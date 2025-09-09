@@ -1,31 +1,46 @@
 import { SafeAreaView, Text, View } from 'react-native';
 
 import QuickActions from '@/components/home/quick-actions';
-import { Upcoming } from '@/components/home/upcoming';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { db } from '@/firebase/firebase-config';
-import { useQuery } from '@tanstack/react-query';
+
 import { LinearGradient } from 'expo-linear-gradient';
-import { collection, getDocs, query } from 'firebase/firestore';
-import { useCallback, useState } from 'react';
+
+import { getTotalTrips, getTrips } from '@/api/api';
+import { Upcoming } from '@/components/home/upcoming';
+import { useQuery } from '@tanstack/react-query';
+import { useCallback } from 'react';
 
 export default function TabTwoScreen() {
-	const [data, setData] = useState(null);
-
-	const q = query(collection(db, 'trip'));
-
-	const getTrips = useCallback(async () => {
+	const fetch = useCallback(async () => {
 		try {
-			const trips = await getDocs(q);
-			return trips.docs.map((doc) => doc.data());
+			const trips = await getTrips('limit=3');
+
+			return trips;
 		} catch (error) {
 			console.log(error);
+			return [];
 		}
-	}, [q]);
+	}, []);
+
+	const fetchTotalTrips = useCallback(async () => {
+		try {
+			console.log('fetchTotalTrips');
+			const res = await getTotalTrips();
+			console.log('res', res);
+			return res;
+		} catch (e) {
+			return null;
+		}
+	}, []);
 
 	const { data: trips, isLoading } = useQuery({
 		queryKey: ['trips'],
-		queryFn: getTrips,
+		queryFn: fetch,
+	});
+
+	const { data: totalTrips } = useQuery({
+		queryKey: ['totalTrips'],
+		queryFn: fetchTotalTrips,
 	});
 
 	return (
@@ -48,7 +63,7 @@ export default function TabTwoScreen() {
 			headerBackgroundColor={{ dark: '#4c669f', light: '#3b5998' }}
 		>
 			<View className='relative z-10 -top-10 gap-4'>
-				<QuickActions />
+				<QuickActions totalTrips={totalTrips} />
 				<Upcoming trips={trips} isLoading={isLoading} />
 			</View>
 		</ParallaxScrollView>

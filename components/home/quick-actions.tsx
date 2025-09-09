@@ -10,7 +10,7 @@ import { Text, View } from 'react-native';
 import { Button } from '../form/Button';
 import { Tile } from './tile';
 
-export default function QuickActions() {
+export default function QuickActions({ totalTrips }: { totalTrips: number }) {
 	return (
 		<View className='gap-6'>
 			<View className='border border-gray-300 rounded-lg p-4 gap-2 bg-white '>
@@ -44,7 +44,7 @@ export default function QuickActions() {
 						<SuitcaseRollingIcon color='#3a86ff' size={24} />
 					</View>
 					<View>
-						<Text className='text-2xl font-bold'>4</Text>
+						<Text className='text-2xl font-bold'>{totalTrips}</Text>
 						<Text className='text-sm text-gray-500'>Total trips</Text>
 					</View>
 				</Tile>
